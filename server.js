@@ -28,6 +28,9 @@ server
 		// Tell the client who they are
 		server.send(sock, { set: { id : player.id, name: player.name} });
 
+	 	// Give player a random position
+	 	player.set_position(Victor().randomize(Victor(-100,100), Victor(100,-100)));
+
 		// Add the player
 		jungle.add_player(player);
 		log.info(`${player.name} connected`);
@@ -102,8 +105,9 @@ server
 				// Name change
 				if(o.set.name) {
 
+					log.info(`${p.name} is now known as ${o.set.name}`);
 					p.name=o.set.name;
-					server.broadcast({
+					server.sendall({
 						"event" : "update",
 						"type" : "player",
 						"id" : p.id,
@@ -115,7 +119,7 @@ server
 				}
 
 				// Velocity change
-				if(o.set.velocity && o.set.velocity.x && o.set.velocity.y) {
+				if(o.set.velocity) {
 
 					p.set_velocity(new Victor(o.set.velocity.x, o.set.velocity.y));
 
