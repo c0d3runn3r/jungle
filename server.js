@@ -129,7 +129,7 @@ server
 });
 
 // Broadcast move events
-jungle.on("move_player", (p)=>{
+jungle.on("move", (p)=>{
 
 	server.sendall({ 
 		"event" : "update",
